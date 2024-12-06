@@ -1,0 +1,103 @@
+#include <dt-bindings/zmk/matrix_transform.h>
+#include <physical_layouts.dtsi>
+// #include <./config/boards/shields/ISO_TK/ISO_TK-layouts.dtsi>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &default_transform;
+        zmk,physical_layout = &default_layout;
+        //zmk,underglow = &led_strip;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-charlieplex";
+        // diode-direction = "col2row";
+        wakeup-source;
+        
+        /*18 columns as its a duplex
+        col-gpios 
+            =   <&pro_micro 20 GPIO_ACTIVE_HIGH>, 
+                <&pro_micro 4  GPIO_ACTIVE_HIGH>,
+                <&pro_micro 5  GPIO_ACTIVE_HIGH>,
+                <&pro_micro 21 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 10 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 16 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 14 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 18 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 19 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 19 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 18 GPIO_ACTIVE_HIGH>, 
+                <&pro_micro 14 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 16 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 10 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 21 GPIO_ACTIVE_HIGH>,
+                <&pro_micro 5  GPIO_ACTIVE_HIGH>,
+                <&pro_micro 4  GPIO_ACTIVE_HIGH>,
+                <&pro_micro 20 GPIO_ACTIVE_HIGH>;
+
+        //6 rows                                                                
+        row-gpios 
+            =   <&pro_micro 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>, 
+                <&pro_micro 1  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  
+                <&pro_micro 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  
+                <&pro_micro 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   
+                <&pro_micro 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  
+                <&pro_micro 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        */
+        gpios
+        //Rows
+            =  <&pro_micro 0  (GPIO_ACTIVE_HIGH)>,  //RC 0
+               <&pro_micro 1  (GPIO_ACTIVE_HIGH)>,  //RC 1
+               <&pro_micro 6  (GPIO_ACTIVE_HIGH)>,  //RC 2
+               <&pro_micro 7  (GPIO_ACTIVE_HIGH)>,  //RC 3
+               <&pro_micro 8  (GPIO_ACTIVE_HIGH)>,  //RC 4
+               <&pro_micro 9  (GPIO_ACTIVE_HIGH)>,  //RC 5
+        //Columns
+               <&pro_micro 20 (GPIO_ACTIVE_HIGH)>,  //RC 6
+               <&pro_micro 4  (GPIO_ACTIVE_HIGH)>,  //RC 7
+               <&pro_micro 5  (GPIO_ACTIVE_HIGH)>,  //RC 8
+               <&pro_micro 21 (GPIO_ACTIVE_HIGH)>,  //RC 9
+               <&pro_micro 10 (GPIO_ACTIVE_HIGH)>,  //RC 10
+               <&pro_micro 16 (GPIO_ACTIVE_HIGH)>,  //RC 11
+               <&pro_micro 14 (GPIO_ACTIVE_HIGH)>,  //RC 12
+               <&pro_micro 18 (GPIO_ACTIVE_HIGH)>,  //RC 13
+               <&pro_micro 19 (GPIO_ACTIVE_HIGH)>;  //RC 14
+
+    };
+
+
+   default_transform: matrix_transform {
+        compatible = "zmk,matrix-transform";
+        rows = <6>;
+        columns = <18>;
+        // G1 ESC F1 F2 F3   ...
+        // G2 `   1  2  3    ...
+        // G3 Tab  Q  W  E   ...
+        // G4 Caps  A  S  D  ...
+        // G5 Shift  Z  X  C ...
+        // G6 Ctrl Alt       ...
+        map = <
+            RC(0,6)  RC(0,7)  RC(0,8)  RC(0,9)  RC(0,10)  RC(0,11)            RC(0,13)   RC(0,14)   RC(14,0)  RC(13,0)  RC(12,0)  RC(11,0)  RC(10,0)  RC(9,0)  RC(8,0)  RC(7,0)  RC(6,0)
+            RC(1,6)  RC(1,7)  RC(1,8)  RC(1,9)  RC(1,10)  RC(1,11)  RC(1,12)  RC(1,13)   RC(1,14)   RC(14,1)  RC(13,1)  RC(12,1)  RC(11,1)  RC(10,1)  RC(9,1)  RC(8,1)  RC(7,1)  RC(6,1)
+            RC(2,6)  RC(2,7)  RC(2,8)  RC(2,9)  RC(2,10)  RC(2,11)  RC(2,12)  RC(2,13)   RC(2,14)   RC(14,2)  RC(13,2)  RC(12,2)  RC(11,2)  RC(10,2)  RC(9,2)  RC(8,2)  RC(7,2)  RC(6,2)
+            RC(3,6)  RC(3,7)  RC(3,8)  RC(3,9)  RC(3,10)  RC(3,11)  RC(3,12)  RC(3,13)   RC(3,14)   RC(14,3)  RC(13,3)  RC(12,3)  RC(11,3)            RC(9,3)  RC(8,3)  RC(7,3)  RC(6,3)
+            RC(4,6)  RC(4,7)           RC(4,9)  RC(4,10)  RC(4,11)  RC(4,12)  RC(4,13)   RC(4,14)   RC(14,4)  RC(13,4)  RC(12,4)  RC(11,4)            RC(9,4)  RC(8,4)  RC(7,4)  RC(6,4)
+            RC(5,6)  RC(5,7)  RC(5,8)  RC(5,9)                      RC(5,12)                                            RC(12,5)  RC(11,5)  RC(10,5)  RC(9,5)  RC(8,5)  RC(7,5)  RC(6,5)
+            >;
+
+        // map = <
+        //     RC(0,7) RC(7,0) 
+        //     RC(1,7) RC(7,1)
+        //     >;
+
+    };
+
+    default_layout: default_layout {
+        compatible = "zmk,physical-layout";
+        display-name = "Default Layout";
+        transform = <&default_transform>;
+        kscan = <&kscan0>;
+    };
+};
+    
