@@ -1,9 +1,15 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
+#include "ISO_TK-layouts.dtsi"
+
+&keyboard_physical_layout {
+    transform = <&default_transform>;
+    kscan = <&kscan0>;
+};
 
 / {
     chosen {
-        zmk,physical_layout = &default_layout;
+        zmk,physical_layout = &keyboard_physical_layout;
     };
 
     kscan0: kscan {
@@ -42,12 +48,5 @@
             RC(4,6)  RC(4,7)           RC(4,9)  RC(4,10)  RC(4,11)  RC(4,12)  RC(4,13)   RC(4,14)   RC(14,4)  RC(13,4)  RC(12,4)  RC(11,4)            RC(9,4)  RC(8,4)  RC(7,4)  RC(6,4)
             RC(5,6)  RC(5,7)  RC(5,8)  RC(5,9)                      RC(5,12)                                            RC(12,5)  RC(11,5)  RC(10,5)  RC(9,5)  RC(8,5)  RC(7,5)  RC(6,5)
             >;
-    };
-
-    default_layout: default_layout {
-        compatible = "zmk,physical-layout";
-        display-name = "Default Layout";
-        transform = <&default_transform>;
-        kscan = <&kscan0>;
     };
 };
